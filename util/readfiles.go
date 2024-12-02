@@ -51,12 +51,12 @@ func findModuleFilePath() (string, error) {
 
 	dir := cwd
 	for {
-		currentDir, err := os.ReadDir(dir)
+		currentDirEntries, err := os.ReadDir(dir)
 		if err != nil {
 			return "", err
 		}
 
-		for _, entry := range currentDir {
+		for _, entry := range currentDirEntries {
 			if(!entry.IsDir() && entry.Name() == "go.mod") {
 				return dir, nil
 			}
