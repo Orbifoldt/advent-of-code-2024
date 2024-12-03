@@ -3,6 +3,7 @@ package main
 import (
 	"advent-of-code-2024/days/day01"
 	"advent-of-code-2024/days/day02"
+	"advent-of-code-2024/days/day03"
 	"fmt"
 )
 
@@ -30,5 +31,18 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: After applying problem dampener, number of valid reports is: %d\n", sol)
+
+
+	fmt.Println("\n\nDay 03:")
+	sol, err = day03.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Sum of multiplications: %d\n", sol)
+	sol, err = day03.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Sum of only enabled multiplications: %d\n", sol)
 
 }
