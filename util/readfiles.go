@@ -11,34 +11,14 @@ import (
 // Read all lines of the `input.txt` file of day [day] into a string slice. 
 // When [useRealInput] is false, will use `sample.txt`
 func ReadInput(day int, useRealInput bool) ([]string, error) {
-	// Need to find project root since current work dir depends on where execution starts
-	modulePath, err := findModuleFilePath()
+	data, err := ReadInputMulti(day, useRealInput)
 	if err != nil {
 		return nil, err
-	}
-
-	var filename string
-	if useRealInput {
-		filename = "input.txt"
+	} else if len(data) == 0 {
+		return nil, nil
 	} else {
-		filename = "sample.txt"
+		return data[0], nil
 	}
-
-	filePath := filepath.Join(modulePath, "resources", fmt.Sprintf("day%02d", day), filename)
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	lines := []string{}
-	for scanner.Scan() {
-		trimmedLine := strings.TrimSpace(scanner.Text())
-		lines = append(lines, trimmedLine)
-	}
-
-	return lines, nil
 }
 
 
@@ -69,4 +49,48 @@ func findModuleFilePath() (string, error) {
 			return "", fmt.Errorf("did not find Go module in '%v'", cwd)
 		}
 	}
+}
+
+
+// Read all lines of the `input.txt` file of day [day]. Sections separated by a empty lines
+// are put into separate string slices.
+// When [useRealInput] is false, will use `sample.txt`
+func ReadInputMulti(day int, useRealInput bool) ([][]string, error) {
+	// Need to find project root since current work dir depends on where execution starts
+	modulePath, err := findModuleFilePath()
+	if err != nil {
+		return nil, err
+	}
+
+	var filename string
+	if useRealInput {
+		filename = "input.txt"
+	} else {
+		filename = "sample.txt"
+	}
+
+	filePath := filepath.Join(modulePath, "resources", fmt.Sprintf("day%02d", day), filename)
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	allData := make([][]string, 0)
+	lines := []string{}
+	for scanner.Scan() {
+		trimmedLine := strings.TrimSpace(scanner.Text())
+		if trimmedLine != "" {
+			lines = append(lines, trimmedLine)
+		} else {
+			allData = append(allData, lines)
+			lines = make([]string, 0)
+		}
+	}
+	if len(lines) > 0 {
+		allData = append(allData, lines)
+	}
+
+	return allData, nil
 }
