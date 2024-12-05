@@ -4,7 +4,6 @@ import (
 	"advent-of-code-2024/util"
 	"fmt"
 	"slices"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -24,22 +23,35 @@ func SolvePart1(useRealInput bool) (int, error) {
 }
 
 func SolvePart2(useRealInput bool) (int, error) {
-	// rules, _, incorrect, err := getCorrectAndIncorrectPages(useRealInput)
-	// if err != nil {
-	// 	return 0, err
-	// }
+	rules, _, incorrect, err := getCorrectAndIncorrectPages(useRealInput)
+	if err != nil {
+		return 0, err
+	}
 
-	// orderGraph? := todo!
-	// less = func(i, j int) bool {
-	// 	todo!
-	// 	return false
-	// }
-
+	// Sort each update using bubble sort
+	// Assuming there is a unique solution the rules define a well-ordering, hence this should work
 	sum := 0
-	// for _, update := range incorrect {
-	// 	sort.Slice(update, less)
-	// 	sum += update[len(update)/2]
-	// }
+	for _, update := range incorrect {
+		out: for {
+			for _, rule := range rules {
+				a := rule[0]
+				b := rule[1]
+				idxA := slices.Index(update, a)
+				idxB := slices.Index(update, b)
+
+				// If a and b appear in incorrect order, swap
+				if idxA != -1 && idxB != -1 && idxA > idxB {
+					update[idxA] = b
+					update[idxB] = a
+					continue out
+				}
+			}
+
+			// Now, update is sorted
+			sum += update[len(update)/2]
+			break out
+		}
+	}
 	
 	return sum, nil
 }

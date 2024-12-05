@@ -46,6 +46,7 @@ func main() {
 	}
 	fmt.Printf("pt2: Sum of only enabled multiplications: %d\n", sol)
 
+	// TODO: day 4
 
 	fmt.Println("\n\nDay 05:")
 	sol, err = day05.SolvePart1(true)
@@ -53,10 +54,10 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt1: Sum of middle pages of correct updates: %d\n", sol)
-	// sol, err = day05.SolvePart2(true)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Printf("pt2: Sum of only enabled multiplications: %d\n", sol)
+	sol, err = day05.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Sum of middle pages of sorted incorrect updates: %d\n", sol)
 
 }
