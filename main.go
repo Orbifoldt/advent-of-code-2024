@@ -4,6 +4,7 @@ import (
 	"advent-of-code-2024/days/day01"
 	"advent-of-code-2024/days/day02"
 	"advent-of-code-2024/days/day03"
+	"advent-of-code-2024/days/day05"
 	"fmt"
 )
 
@@ -44,5 +45,18 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Sum of only enabled multiplications: %d\n", sol)
+
+
+	fmt.Println("\n\nDay 05:")
+	sol, err = day05.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Sum of middle pages of correct updates: %d\n", sol)
+	// sol, err = day05.SolvePart2(true)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Printf("pt2: Sum of only enabled multiplications: %d\n", sol)
 
 }
