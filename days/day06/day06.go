@@ -4,6 +4,8 @@ import (
 	"advent-of-code-2024/util"
 	"fmt"
 	"slices"
+	"sync"
+	"sync/atomic"
 )
 
 func SolvePart1(useRealInput bool) (int, error) {
@@ -64,61 +66,26 @@ func SolvePart2(useRealInput bool) (int, error) {
 	width := len(board[0])
 
 
-	loopCount := 0
+	var loopCount atomic.Int32
+	var wg sync.WaitGroup
+	wg.Add(width * height)
+
 	for obsY := range height {
 		for obsX := range width {
-			if obsX == originalPos[0] && obsY == originalPos[1] {
-				continue  // can't place obstacle where guard starts
-			}
+			go func(obsX int, obsY int) {
+				defer wg.Done()
 
-			pos := [2]int{originalPos[0], originalPos[1]}
-
-			// Keep track of all directions that we went through a particular position
-			// If you are on same tile and same direction, then you're in a loop
-			visited := make([][][]Direction, height)
-			for y := range height {
-				visited[y] = make([][]Direction, width)
-				for x := range width {
-					visited[y][x] = make([]Direction, 0)
-				}
-			}
-
-			dir := UP
-			visited[pos[1]][pos[0]] = append(visited[pos[1]][pos[0]], dir) 
-
-			looped := false
-			for {
-				newPos := nextCoordinate(pos, dir)
-				x, y := newPos[0], newPos[1]
-
-				if x < 0 || x >= width || y < 0 || y >= height {
-					// left board
-					break
+				if obsX == originalPos[0] && obsY == originalPos[1] {
+					return  // can't place obstacle where guard starts
 				}
 
-				if board[y][x] || (x == obsX && y == obsY) {
-					// hit a wall/box
-					dir = turnRight(dir)
-				} else {
-					if slices.Contains(visited[y][x], dir) {
-						// Loop detected!
-						looped = true
-						break
-					} else {
-						// Move to next tile
-						pos = newPos
-						visited[y][x] = append(visited[y][x], dir)
-					}
-				}
-			}
-
-			if looped {
-				loopCount++
-			}
+				checkIfLoops(board, width, height, originalPos[0], originalPos[1], obsX, obsY, &loopCount) 
+			}(obsX, obsY)
 		}
 	}
 	
-	return loopCount, nil
+	wg.Wait()
+	return int(loopCount.Load()), nil
 }
 
 type Direction int
@@ -186,6 +153,48 @@ func printBoard(board [][]bool, visited [][]bool, exitPosition [2]int) {
 			}
 		}
 		fmt.Println()
+	}
+}
+
+func checkIfLoops(board [][]bool, width, height, startX, startY, obsX, obsY int, loopCounter *atomic.Int32) {
+	pos := [2]int{startX, startY}
+
+	// Keep track of all directions that we went through a particular position
+	// If you are on same tile and same direction, then you're in a loop
+	visited := make([][][]Direction, height)
+	for y := range height {
+		visited[y] = make([][]Direction, width)
+		for x := range width {
+			visited[y][x] = make([]Direction, 0)
+		}
+	}
+
+	dir := UP
+	visited[pos[1]][pos[0]] = append(visited[pos[1]][pos[0]], dir) 
+
+	for {
+		newPos := nextCoordinate(pos, dir)
+		x, y := newPos[0], newPos[1]
+
+		if x < 0 || x >= width || y < 0 || y >= height {
+			// left board
+			return 
+		}
+
+		if board[y][x] || (x == obsX && y == obsY) {
+			// hit a wall/box
+			dir = turnRight(dir)
+		} else {
+			if slices.Contains(visited[y][x], dir) {
+				// Loop detected!
+				loopCounter.Add(1)
+				return 
+			} else {
+				// Move to next tile
+				pos = newPos
+				visited[y][x] = append(visited[y][x], dir)
+			}
+		}
 	}
 }
 

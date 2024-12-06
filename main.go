@@ -7,6 +7,7 @@ import (
 	"advent-of-code-2024/days/day05"
 	"advent-of-code-2024/days/day06"
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -66,7 +67,9 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt1: Number of visited squares: %d\n", sol)
+	start := time.Now()
 	sol, err = day06.SolvePart2(true)
+	fmt.Printf("Took %s\n", time.Since(start))
 	if err != nil {
 		panic(err)
 	}
