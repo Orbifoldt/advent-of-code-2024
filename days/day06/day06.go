@@ -148,22 +148,22 @@ func nextCoordinate(current [2]int, direction Direction) [2]int {
 	panic("Unreachable, direction should be exhaustive check")
 }
 
-func printBoard(board [][]bool, visited [][]bool, exitPosition [2]int) {
-	for y, row := range board {
-		for x, wall := range row {
-			if wall {
-				fmt.Print("#")
-			} else if visited[y][x] {
-				fmt.Print("X")
-			} else if exitPosition[0] == x && exitPosition[1] == y {
-				fmt.Print("O")
-			} else {
-				fmt.Print(".")
-			}
-		}
-		fmt.Println()
-	}
-}
+// func printBoard(board [][]bool, visited [][]bool, exitPosition [2]int) {
+// 	for y, row := range board {
+// 		for x, wall := range row {
+// 			if wall {
+// 				fmt.Print("#")
+// 			} else if visited[y][x] {
+// 				fmt.Print("X")
+// 			} else if exitPosition[0] == x && exitPosition[1] == y {
+// 				fmt.Print("O")
+// 			} else {
+// 				fmt.Print(".")
+// 			}
+// 		}
+// 		fmt.Println()
+// 	}
+// }
 
 func checkIfLoops(board [][]bool, width, height, startX, startY, obsX, obsY int, loopCounter *atomic.Int32) {
 	pos := [2]int{startX, startY}
