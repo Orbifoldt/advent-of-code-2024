@@ -5,6 +5,7 @@ import (
 	"advent-of-code-2024/days/day02"
 	"advent-of-code-2024/days/day03"
 	"advent-of-code-2024/days/day05"
+	"advent-of-code-2024/days/day06"
 	"fmt"
 )
 
@@ -33,7 +34,6 @@ func main() {
 	}
 	fmt.Printf("pt2: After applying problem dampener, number of valid reports is: %d\n", sol)
 
-
 	fmt.Println("\n\nDay 03:")
 	sol, err = day03.SolvePart1(true)
 	if err != nil {
@@ -59,5 +59,17 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Sum of middle pages of sorted incorrect updates: %d\n", sol)
+
+	fmt.Println("\n\nDay 06:")
+	sol, err = day06.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Number of visited squares: %d\n", sol)
+	sol, err = day06.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Number of obstruction positions that cause loops: %d\n", sol)
 
 }
