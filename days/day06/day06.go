@@ -17,33 +17,7 @@ func SolvePart1(useRealInput bool) (int, error) {
 	height := len(board)
 	width := len(board[0])
 
-	visited := make([][]bool, height)
-	for y := range height {
-		visited[y] = make([]bool, width)
-	}
-	visited[pos[1]][pos[0]] = true  // start position should be included!!!
-
-	dir := UP
-	for {
-		newPos := nextCoordinate(pos, dir)
-		x, y := newPos[0], newPos[1]
-
-		if x < 0 || x >= width || y < 0 || y >= height {
-			// fmt.Printf("Left board at (%d, %d)\n", pos[0], pos[1])
-			// printBoard(board, visited, pos)
-			break
-		}
-
-		if board[y][x] {
-			// hit a wall/box
-			dir = turnRight(dir)
-			// fmt.Printf("Hit wall at (%d, %d), turning toward %v \n", x, y, dir)
-		} else {
-			// Only move if we didn't hit anything
-			pos = newPos
-			visited[y][x] = true
-		}
-	}
+	visited := walk(board, width, height, pos[0], pos[1])
 
 	visitedCount := 0
 	for y := range height {
@@ -57,6 +31,38 @@ func SolvePart1(useRealInput bool) (int, error) {
 	return visitedCount, nil
 }
 
+func walk(board [][]bool, width, height, startX, startY int) (visited [][]bool) {
+	pos := [2]int{startX, startY}
+
+	visited = make([][]bool, height)
+	for y := range height {
+		visited[y] = make([]bool, width)
+	}
+	visited[pos[1]][pos[0]] = true  // start position should be included!!!
+
+	dir := UP
+	for {
+		newPos := nextCoordinate(pos, dir)
+		x, y := newPos[0], newPos[1]
+
+		if x < 0 || x >= width || y < 0 || y >= height {
+			// fmt.Printf("Left board at (%d, %d)\n", pos[0], pos[1])
+			// printBoard(board, visited, pos)
+			return visited
+		}
+
+		if board[y][x] {
+			// hit a wall/box
+			dir = turnRight(dir)
+			// fmt.Printf("Hit wall at (%d, %d), turning toward %v \n", x, y, dir)
+		} else {
+			// Only move if we didn't hit anything
+			pos = newPos
+			visited[y][x] = true
+		}
+	}
+}
+
 func SolvePart2(useRealInput bool) (int, error) {
 	board, originalPos, err := parseInput(useRealInput)
 	if err != nil {
@@ -65,6 +71,7 @@ func SolvePart2(useRealInput bool) (int, error) {
 	height := len(board)
 	width := len(board[0])
 
+	possibleVisited := walk(board, width, height, originalPos[0], originalPos[1])
 
 	var loopCount atomic.Int32
 	var wg sync.WaitGroup
@@ -77,6 +84,8 @@ func SolvePart2(useRealInput bool) (int, error) {
 
 				if obsX == originalPos[0] && obsY == originalPos[1] {
 					return  // can't place obstacle where guard starts
+				} else if !possibleVisited[obsY][obsX] {
+					return // If original path doesn't reach, placing an obstacle there doesn't matter
 				}
 
 				checkIfLoops(board, width, height, originalPos[0], originalPos[1], obsX, obsY, &loopCount) 
