@@ -1,6 +1,6 @@
 package util
 
-type Vec struct {X, Y int}
+type Vec struct{ X, Y int }
 
 // Update receiver by adding argument vector to it
 func (v *Vec) Add(w Vec) {
@@ -10,10 +10,12 @@ func (v *Vec) Add(w Vec) {
 
 // Create new vector that is sum of the receiver and argument
 func (v Vec) Plus(w Vec) Vec {
-	return Vec{ v.X + w.X, v.Y + w.Y}
+	return Vec{v.X + w.X, v.Y + w.Y}
 }
 
+//go:generate stringer -type=Direction
 type Direction int
+
 const (
 	UP Direction = iota
 	RIGHT
@@ -23,12 +25,16 @@ const (
 
 func (d Direction) ToVec() Vec {
 	switch d {
-	case UP:  return Vec{ 0, -1}
-	case RIGHT:  return Vec{ 1,  0}
-	case DOWN:  return Vec{ 0,  1}
-	case LEFT:  return Vec{-1,  0}
+	case UP:
+		return Vec{0, -1}
+	case RIGHT:
+		return Vec{1, 0}
+	case DOWN:
+		return Vec{0, 1}
+	case LEFT:
+		return Vec{-1, 0}
 	}
-	panic("Invalid direction") 
+	panic("Invalid direction")
 }
 
 // Update receiver by adding the corresponding DiagDirection vector
@@ -41,7 +47,9 @@ func (v Vec) PlusDir(d Direction) Vec {
 	return v.Plus(d.ToVec())
 }
 
+//go:generate stringer -type=DiagDirection
 type DiagDirection int
+
 const (
 	N DiagDirection = iota
 	NE
@@ -59,16 +67,24 @@ func ClockwiseDiagDirections() [8]DiagDirection {
 
 func (d DiagDirection) ToVec() Vec {
 	switch d {
-	case N:  return Vec{ 0, -1}
-	case NE: return Vec{ 1, -1}
-	case E:  return Vec{ 1,  0}
-	case SE: return Vec{ 1,  1}
-	case S:  return Vec{ 0,  1}
-	case SW: return Vec{-1,  1}
-	case W:  return Vec{-1,  0}
-	case NW: return Vec{-1, -1}
+	case N:
+		return Vec{0, -1}
+	case NE:
+		return Vec{1, -1}
+	case E:
+		return Vec{1, 0}
+	case SE:
+		return Vec{1, 1}
+	case S:
+		return Vec{0, 1}
+	case SW:
+		return Vec{-1, 1}
+	case W:
+		return Vec{-1, 0}
+	case NW:
+		return Vec{-1, -1}
 	}
-	panic("Invalid direction") 
+	panic("Invalid direction")
 }
 
 // Update receiver by adding the corresponding DiagDirection vector
@@ -80,5 +96,3 @@ func (v *Vec) MoveDirDiag(d DiagDirection) {
 func (v Vec) PlusDirDiag(d DiagDirection) Vec {
 	return v.Plus(d.ToVec())
 }
-
-
