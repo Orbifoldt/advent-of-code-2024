@@ -4,6 +4,7 @@ import (
 	"advent-of-code-2024/days/day01"
 	"advent-of-code-2024/days/day02"
 	"advent-of-code-2024/days/day03"
+	"advent-of-code-2024/days/day04"
 	"advent-of-code-2024/days/day05"
 	"advent-of-code-2024/days/day06"
 	"advent-of-code-2024/days/day07"
@@ -48,7 +49,19 @@ func main() {
 	}
 	fmt.Printf("pt2: Sum of only enabled multiplications: %d\n", sol)
 
-	// TODO: day 4
+
+	fmt.Println("\n\nDay 04:")
+	sol, err = day04.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Number of XMASes: %d\n", sol)
+	sol, err = day04.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Number of X-MASes: %d\n", sol)
+
 
 	fmt.Println("\n\nDay 05:")
 	sol, err = day05.SolvePart1(true)
