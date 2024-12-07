@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
+	"sync/atomic"
 )
 
 
@@ -31,15 +33,22 @@ func SolvePart2(useRealInput bool) (int64, error) {
 		return 0, err
 	}
 
-	var sum int64
+	var sum atomic.Int64
+	var wg sync.WaitGroup
 	for idx, testValue := range testValues {
 		operandsLine := operands[idx]
-		if canBeSolvedWithConcatenation(testValue, operandsLine) {
-			sum += testValue
-		}
-	}
+		wg.Add(1)
 
-	return sum, nil
+		go func() {
+			defer wg.Done()
+			if canBeSolvedWithConcatenation(testValue, operandsLine) {
+				sum.Add(testValue)
+			}
+		}()
+	}
+	wg.Wait()
+
+	return sum.Load(), nil
 }
 
 func canBeSolved(testValue int64, operands []int64) bool {
