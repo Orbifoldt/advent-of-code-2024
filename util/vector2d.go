@@ -1,16 +1,16 @@
 package util
 
-type Vec struct { x, y int}
+type Vec struct {X, Y int}
 
 // Update receiver by adding argument vector to it
 func (v *Vec) Add(w Vec) {
-	v.x += w.x
-	v.y += w.y
+	v.X += w.X
+	v.Y += w.Y
 }
 
 // Create new vector that is sum of the receiver and argument
 func (v Vec) Plus(w Vec) Vec {
-	return Vec{ v.x + w.x, v.y + w.y}
+	return Vec{ v.X + w.X, v.Y + w.Y}
 }
 
 type Direction int
