@@ -6,6 +6,7 @@ import (
 	"advent-of-code-2024/days/day03"
 	"advent-of-code-2024/days/day05"
 	"advent-of-code-2024/days/day06"
+	"advent-of-code-2024/days/day07"
 	"fmt"
 	"time"
 )
@@ -61,18 +62,33 @@ func main() {
 	}
 	fmt.Printf("pt2: Sum of middle pages of sorted incorrect updates: %d\n", sol)
 
+	
 	fmt.Println("\n\nDay 06:")
 	sol, err = day06.SolvePart1(true)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("pt1: Number of visited squares: %d\n", sol)
-	start := time.Now()
+	start06_2 := time.Now()
 	sol, err = day06.SolvePart2(true)
-	fmt.Printf("Took %s\n", time.Since(start))
+	fmt.Printf("Took %s\n", time.Since(start06_2))
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of obstruction positions that cause loops: %d\n", sol)
 
+
+	fmt.Println("\n\nDay 07:")
+	sol64, err := day07.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Sum of valid test values: %d\n", sol64)
+	start := time.Now()
+	sol64, err = day07.SolvePart2(true)
+	fmt.Printf("Took %s\n", time.Since(start))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Sum of valid test values with concatenation: %d\n", sol64)
 }
