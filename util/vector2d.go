@@ -1,6 +1,12 @@
 package util
 
+import "fmt"
+
 type Vec struct{ X, Y int }
+
+func (v Vec) String() string {
+	return fmt.Sprintf("Vec(X: %d, Y: %d)", v.X, v.Y)
+}
 
 // Update receiver by adding argument vector to it
 func (v *Vec) Add(w Vec) {
@@ -11,6 +17,26 @@ func (v *Vec) Add(w Vec) {
 // Create new vector that is sum of the receiver and argument
 func (v Vec) Plus(w Vec) Vec {
 	return Vec{v.X + w.X, v.Y + w.Y}
+}
+
+// Create new vector that is difference between the receiver and argument
+func (v Vec) Minus(w Vec) Vec {
+	return Vec{v.X - w.X, v.Y - w.Y}
+}
+
+// Create new vector by mulitplying both arguments of the receiver by c
+func (v Vec) Times(c int) Vec {
+	return Vec{v.X * c, v.Y * c}
+}
+
+// Create new vector by dividing both arguments of the receiver by c
+func (v Vec) Divide(c int) Vec {
+	return Vec{v.X / c, v.Y / c}
+}
+
+// Test if a point is within the square at (0, 0) in the positive quadrant 
+func (v Vec) IsInBounds(width, height int) bool {
+	return 0 <= v.X && v.X < width && 0 <= v.Y && v.Y < height
 }
 
 //go:generate stringer -type=Direction
