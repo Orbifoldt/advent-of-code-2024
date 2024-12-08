@@ -8,6 +8,7 @@ import (
 	"advent-of-code-2024/days/day05"
 	"advent-of-code-2024/days/day06"
 	"advent-of-code-2024/days/day07"
+	"advent-of-code-2024/days/day08"
 	"fmt"
 	"time"
 )
@@ -104,4 +105,17 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Sum of valid test values with concatenation: %d\n", sol64)
+
+
+	fmt.Println("\n\nDay 08:")
+	sol, err = day08.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Number of unique antinode locations: %d\n", sol)
+	sol, err = day08.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Number of collinear antinode locations: %d\n", sol)
 }
