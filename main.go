@@ -9,6 +9,7 @@ import (
 	"advent-of-code-2024/days/day06"
 	"advent-of-code-2024/days/day07"
 	"advent-of-code-2024/days/day08"
+	"advent-of-code-2024/days/day09"
 	"fmt"
 	"time"
 )
@@ -118,4 +119,17 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of collinear antinode locations: %d\n", sol)
+
+
+	fmt.Println("\n\nDay 09:")
+	sol64, err = day09.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Checksum after moving file blocks: %d\n", sol64)
+	sol64, err = day09.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Checksum after moving whole files: %d\n", sol64)
 }
