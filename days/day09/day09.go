@@ -19,12 +19,12 @@ func SolvePart1(useRealInput bool) (int64, error) {
 	fileId := 0
 	for _, size := range diskMap {
 		if !isFreeSpace {
-			for _ = range size {
+			for range size {
 				disk = append(disk, fileId)
 			}
 			fileId++
 		} else {
-			for _ = range size {
+			for range size {
 				disk = append(disk, -1)
 			}
 		}
@@ -66,14 +66,14 @@ func SolvePart2(useRealInput bool) (int64, error) {
 	diskIndex := 0
 	for _, size := range diskMap {
 		if !isFreeSpace {
-			for _ = range size {
+			for range size {
 				disk = append(disk, fileId)
 			}
 			fileMap[fileId] = diskIndex
 			fileSizes[fileId] = size
 			fileId++
 		} else {
-			for _ = range size {
+			for range size {
 				disk = append(disk, -1)
 			}
 		}
