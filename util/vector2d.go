@@ -34,7 +34,7 @@ func (v Vec) Divide(c int) Vec {
 	return Vec{v.X / c, v.Y / c}
 }
 
-// Test if a point is within the square at (0, 0) in the positive quadrant 
+// Test if a point is within the square at (0, 0) in the positive quadrant
 func (v Vec) IsInBounds(width, height int) bool {
 	return 0 <= v.X && v.X < width && 0 <= v.Y && v.Y < height
 }
@@ -48,6 +48,10 @@ const (
 	DOWN
 	LEFT
 )
+
+func ClockwiseDirections() [4]Direction {
+	return [4]Direction{UP, RIGHT, DOWN, LEFT}
+}
 
 func (d Direction) ToVec() Vec {
 	switch d {

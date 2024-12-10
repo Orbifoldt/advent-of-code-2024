@@ -10,6 +10,7 @@ import (
 	"advent-of-code-2024/days/day07"
 	"advent-of-code-2024/days/day08"
 	"advent-of-code-2024/days/day09"
+	"advent-of-code-2024/days/day10"
 	"fmt"
 	"time"
 )
@@ -132,4 +133,17 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Checksum after moving whole files: %d\n", sol64)
+	
+
+	fmt.Println("\n\nDay 10:")
+	sol, err = day10.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Score of all trailheads: %d\n", sol)
+	sol, err = day10.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Score of all trailheads counting unique trails: %d\n", sol)
 }
