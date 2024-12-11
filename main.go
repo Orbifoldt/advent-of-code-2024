@@ -11,6 +11,7 @@ import (
 	"advent-of-code-2024/days/day08"
 	"advent-of-code-2024/days/day09"
 	"advent-of-code-2024/days/day10"
+	"advent-of-code-2024/days/day11"
 	"fmt"
 	"time"
 )
@@ -146,4 +147,17 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Score of all trailheads counting unique trails: %d\n", sol)
+
+
+	fmt.Println("\n\nDay 11:")
+	sol64, err = day11.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Number of stones after 25 times blinking: %d\n", sol64)
+	sol64, err = day11.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Number of stones after 75 times blinking: %d\n", sol64)
 }
