@@ -18,11 +18,14 @@ func SolvePart1(useRealInput bool) (int64, error) {
 	for _, stone := range stones {
 		total += countStones(countCache, stone, 25)
 	}
-	
+
 	return total, nil
 }
 
-type state struct {stone int64; iterations int}
+type state struct {
+	stone      int64
+	iterations int
+}
 
 func countStones(countCache map[state]int64, startStone int64, numIterations int) int64 {
 	if numIterations == 0 {
@@ -32,8 +35,8 @@ func countStones(countCache map[state]int64, startStone int64, numIterations int
 	if cachedCount == 0 {
 		var count int64
 		if startStone == 0 {
-			count = countStones(countCache, 1, numIterations - 1)
-		} else if str := fmt.Sprint(startStone); len(str) % 2 == 0 {
+			count = countStones(countCache, 1, numIterations-1)
+		} else if str := fmt.Sprint(startStone); len(str)%2 == 0 {
 			a, b := str[:len(str)/2], str[len(str)/2:]
 			x1, err := strconv.ParseInt(a, 10, 64)
 			if err != nil {
@@ -43,9 +46,9 @@ func countStones(countCache map[state]int64, startStone int64, numIterations int
 			if err != nil {
 				panic(err)
 			}
-			count = countStones(countCache, x1, numIterations - 1) + countStones(countCache, x2, numIterations - 1)
+			count = countStones(countCache, x1, numIterations-1) + countStones(countCache, x2, numIterations-1)
 		} else {
-			count = countStones(countCache, startStone * 2024, numIterations - 1)
+			count = countStones(countCache, startStone*2024, numIterations-1)
 		}
 		countCache[state{startStone, numIterations}] = count
 		return count
@@ -65,7 +68,7 @@ func SolvePart2(useRealInput bool) (int64, error) {
 	for _, stone := range stones {
 		total += countStones(countCache, stone, 75)
 	}
-	
+
 	return total, nil
 }
 
