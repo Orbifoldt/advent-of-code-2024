@@ -2,6 +2,7 @@ package util
 
 import (
 	"testing"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -64,6 +65,23 @@ func TestShouldDeterminIfAVectorIsNotInBounds(t *testing.T) {
 	assert.Equal(t, false, Vec{6, 5}.IsInBounds(width, height))
 }
 
+func TestShouldCorrectlyComputeDotProduct(t *testing.T) {
+	v := Vec{7, -2}
+	w := Vec{-1, -3}
+	dot := v.Dot(w)
+	assert.Equal(t, -7+6, dot)
+	assert.Equal(t, Vec{7, -2}, v, "v should remain unchanged")
+	assert.Equal(t, Vec{-1, -3}, w, "w should remain unchanged")
+}
+
+func TestShouldCorrectlyDeterminIfVectorsArePerpendicular(t *testing.T) {
+	assert.True(t, Vec{1, 0}.IsPerpendicularTo(Vec{0, 1}))
+	assert.True(t, Vec{1, 1}.IsPerpendicularTo(Vec{-1, 1}))
+
+	assert.False(t, Vec{2, 1}.IsPerpendicularTo(Vec{-1, 1}))
+	assert.False(t, Vec{3, 2}.IsPerpendicularTo(Vec{-3, -2}))
+}
+
 func TestShouldCorrectlyUpdateVectorAccordingToDirection(t *testing.T) {
 	v := Vec{-33, 17}
 	v.MoveDir(DOWN)
@@ -88,4 +106,29 @@ func TestShouldCorrectlyPlusDiagonalDirectionToVector(t *testing.T) {
 	w := v.PlusDirDiag(NW)
 	assert.Equal(t, Vec{-34, 16}, w)
 	assert.Equal(t, Vec{-33, 17}, v, "v should remain unchanged")
+}
+
+func TestIsOppositeShouldReturnTrueIfDirectionsAreOpposite(t *testing.T) {
+	assert.True(t, UP.IsOpposite(DOWN))
+	assert.True(t, DOWN.IsOpposite(UP))
+	assert.True(t, LEFT.IsOpposite(RIGHT))
+	assert.True(t, RIGHT.IsOpposite(LEFT))
+}
+
+func TestIsOppositeShouldReturnFalseIfDirectionsAreSame(t *testing.T) {
+	assert.False(t, UP.IsOpposite(UP))
+	assert.False(t, DOWN.IsOpposite(DOWN))
+	assert.False(t, LEFT.IsOpposite(LEFT))
+	assert.False(t, RIGHT.IsOpposite(RIGHT))
+}
+
+func TestIsOppositeShouldReturnFalseIfDirectionsAreNotOpposite(t *testing.T) {
+	assert.False(t, UP.IsOpposite(LEFT))
+	assert.False(t, DOWN.IsOpposite(LEFT))
+	assert.False(t, UP.IsOpposite(RIGHT))
+	assert.False(t, DOWN.IsOpposite(RIGHT))
+	assert.False(t, LEFT.IsOpposite(UP))
+	assert.False(t, RIGHT.IsOpposite(UP))
+	assert.False(t, LEFT.IsOpposite(DOWN))
+	assert.False(t, RIGHT.IsOpposite(DOWN))
 }

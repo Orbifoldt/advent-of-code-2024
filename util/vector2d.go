@@ -39,6 +39,16 @@ func (v Vec) IsInBounds(width, height int) bool {
 	return 0 <= v.X && v.X < width && 0 <= v.Y && v.Y < height
 }
 
+// Dot/inner product of two vectors
+func (v Vec) Dot(w Vec) int {
+	return v.X*w.X + v.Y*w.Y
+}
+
+// Returns whether two vectors are perpendicular
+func (v Vec) IsPerpendicularTo(w Vec) bool {
+	return (v.Dot(w) == 0)
+}
+
 //go:generate stringer -type=Direction
 type Direction int
 
@@ -65,6 +75,20 @@ func (d Direction) ToVec() Vec {
 		return Vec{-1, 0}
 	}
 	panic("Invalid direction")
+}
+
+func (dir Direction) IsOpposite(other Direction) bool {
+	return dir.ToVec().Plus(other.ToVec()) == Vec{X: 0, Y: 0}
+}
+
+func (dir Direction) PerpendicularDirections() [2]Direction {
+	switch dir {
+	case UP, DOWN:
+		return [2]Direction{LEFT, RIGHT}
+	case LEFT, RIGHT:
+		return [2]Direction{UP, DOWN}
+	}
+	panic("Invalid direction received")
 }
 
 // Update receiver by adding the corresponding DiagDirection vector
