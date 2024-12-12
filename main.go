@@ -12,6 +12,7 @@ import (
 	"advent-of-code-2024/days/day09"
 	"advent-of-code-2024/days/day10"
 	"advent-of-code-2024/days/day11"
+	"advent-of-code-2024/days/day12"
 	"fmt"
 	"time"
 )
@@ -160,4 +161,17 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of stones after 75 times blinking: %d\n", sol64)
+	
+
+	fmt.Println("\n\nDay 12:")
+	sol, err = day12.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Total price of the garden: %d\n", sol)
+	sol, err = day12.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Total price after discount: %d\n", sol)
 }
