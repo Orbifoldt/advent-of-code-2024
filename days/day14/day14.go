@@ -46,7 +46,7 @@ func SolvePart2(useRealInput bool, drawOutput bool) (int, error) {
 			g.move(1, width, height)
 		}
 		if detectChristmasTree(guards, width, height, i, drawOutput) {
-			return i+1, nil
+			return i + 1, nil
 		}
 	}
 
@@ -59,9 +59,11 @@ func detectChristmasTree(guards []*guard, width, height, iteration int, draw boo
 		positions[g.p] += 1
 	}
 
+	// If the grid of guards contains a christmas tree picture, it should contain a diaganol line
+	// So, the goal is to find those iterations with a diagonal line
 	containsDiagonalLine := false
-
-	for p, _ := range positions {
+	for p := range positions {
+		// After trial and error, a diagonal line of 7 squares turned out to be enough to find the tree
 		p1 := p.PlusDirDiag(util.NE)
 		p2 := p1.PlusDirDiag(util.NE)
 		p3 := p2.PlusDirDiag(util.NE)
@@ -79,7 +81,7 @@ func detectChristmasTree(guards []*guard, width, height, iteration int, draw boo
 	}
 
 	if draw {
-		fmt.Printf("\n\n============= ITERATION %d ===============\n", iteration)
+		fmt.Printf("\n\n=============== Time passed: %ds ==================\n", iteration+1)
 		for y := range height {
 			for x := range width {
 				count := positions[util.Vec{X: x, Y: y}]
@@ -117,7 +119,7 @@ func countQuadrants(guards []*guard, width, height int) int {
 			ne++
 		case x > width/2 && y > height/2:
 			se++
-		default: 
+		default:
 			// noop, Exactly in middle
 		}
 	}

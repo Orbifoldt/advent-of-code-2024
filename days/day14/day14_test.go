@@ -19,5 +19,5 @@ func TestShouldCorrectlyDeterminePart2OnExampleInput(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Error during Solve: %v", err)
 	}
-	assert.Equal(t, 7492, solution)
+	assert.Equal(t, 74921, solution)
 }
