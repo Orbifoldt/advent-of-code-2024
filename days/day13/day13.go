@@ -94,10 +94,6 @@ func parseInput(useRealInput bool) ([]machine, error) {
 		return nil, fmt.Errorf("expected multiple sections of input")
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
 	var machines []machine
 	for _, block := range data {
 		buttonA := extractToVector(buttonRegex, block[0])
