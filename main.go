@@ -15,6 +15,7 @@ import (
 	"advent-of-code-2024/days/day12"
 	"advent-of-code-2024/days/day13"
 	"advent-of-code-2024/days/day14"
+	"advent-of-code-2024/days/day15"
 	"fmt"
 	"time"
 )
@@ -56,7 +57,6 @@ func main() {
 	}
 	fmt.Printf("pt2: Sum of only enabled multiplications: %d\n", sol)
 
-
 	fmt.Println("\n\nDay 04:")
 	sol, err = day04.SolvePart1(true)
 	if err != nil {
@@ -68,7 +68,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of X-MASes: %d\n", sol)
-
 
 	fmt.Println("\n\nDay 05:")
 	sol, err = day05.SolvePart1(true)
@@ -82,7 +81,6 @@ func main() {
 	}
 	fmt.Printf("pt2: Sum of middle pages of sorted incorrect updates: %d\n", sol)
 
-	
 	fmt.Println("\n\nDay 06:")
 	sol, err = day06.SolvePart1(true)
 	if err != nil {
@@ -96,7 +94,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of obstruction positions that cause loops: %d\n", sol)
-
 
 	fmt.Println("\n\nDay 07:")
 	sol64, err := day07.SolvePart1(true)
@@ -112,7 +109,6 @@ func main() {
 	}
 	fmt.Printf("pt2: Sum of valid test values with concatenation: %d\n", sol64)
 
-
 	fmt.Println("\n\nDay 08:")
 	sol, err = day08.SolvePart1(true)
 	if err != nil {
@@ -125,7 +121,6 @@ func main() {
 	}
 	fmt.Printf("pt2: Number of collinear antinode locations: %d\n", sol)
 
-
 	fmt.Println("\n\nDay 09:")
 	sol64, err = day09.SolvePart1(true)
 	if err != nil {
@@ -137,7 +132,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Checksum after moving whole files: %d\n", sol64)
-	
 
 	fmt.Println("\n\nDay 10:")
 	sol, err = day10.SolvePart1(true)
@@ -151,7 +145,6 @@ func main() {
 	}
 	fmt.Printf("pt2: Score of all trailheads counting unique trails: %d\n", sol)
 
-
 	fmt.Println("\n\nDay 11:")
 	sol64, err = day11.SolvePart1(true)
 	if err != nil {
@@ -163,7 +156,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of stones after 75 times blinking: %d\n", sol64)
-	
 
 	fmt.Println("\n\nDay 12:")
 	sol, err = day12.SolvePart1(true)
@@ -176,7 +168,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Total price after discount: %d\n", sol)
-	
 
 	fmt.Println("\n\nDay 13:")
 	sol, err = day13.SolvePart1(true)
@@ -189,7 +180,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Total price after discount: %d\n", sol64)
-	
 
 	fmt.Println("\n\nDay 14:")
 	sol, err = day14.SolvePart1(true)
@@ -202,4 +192,16 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Total price after discount: %d\n", sol)
+
+	fmt.Println("\n\nDay 15:")
+	sol, err = day15.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Sum of GPS: %d\n", sol)
+	sol, err = day15.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: After widening, sum of GPS: %d\n", sol)
 }

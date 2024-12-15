@@ -19,6 +19,12 @@ func (v Vec) Plus(w Vec) Vec {
 	return Vec{v.X + w.X, v.Y + w.Y}
 }
 
+// Update receiver by adding argument vector to it
+func (v *Vec) Substract(w Vec) {
+	v.X -= w.X
+	v.Y -= w.Y
+}
+
 // Create new vector that is difference between the receiver and argument
 func (v Vec) Minus(w Vec) Vec {
 	return Vec{v.X - w.X, v.Y - w.Y}
