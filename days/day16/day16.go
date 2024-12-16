@@ -2,10 +2,9 @@ package day16
 
 import (
 	"advent-of-code-2024/util"
+	"container/heap"
 	"fmt"
 	"math"
-
-	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 
 func SolvePart1(useRealInput bool) (int, error) {
@@ -18,27 +17,57 @@ func SolvePart2(useRealInput bool) (int, error) {
 	return n, err
 }
 
+type PriorityQueue []*locationDist // See https://pkg.go.dev/container/heap#example-package-PriorityQueue
+
+func (pq PriorityQueue) Len() int { return len(pq) }
+func (pq PriorityQueue) Less(i, j int) bool {
+	return pq[i].dist < pq[j].dist
+}
+
+func (pq PriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+	pq[i].index = i
+	pq[j].index = j
+}
+
+func (pq *PriorityQueue) Push(x any) {
+	n := len(*pq)
+	item := x.(*locationDist)
+	item.index = n
+	*pq = append(*pq, item)
+}
+
+func (pq *PriorityQueue) Pop() any {
+	old := *pq
+	n := len(old)
+	item := old[n-1]
+	old[n-1] = nil  // don't stop the GC from reclaiming the item eventually
+	item.index = -1 // for safety
+	*pq = old[0 : n-1]
+	return item
+}
+
 func solve(useRealInput bool) (int, int, error) {
 	maze, start, end, err := parseInput(useRealInput)
 	if err != nil {
 		return 0, 0, err
 	}
 	startLoc := location{*start, util.RIGHT}
-	allDirs := util.ClockwiseDirections()
 
 	// Dijkstra with priority queue
 	// We use negative distance since it's a max-priority queue (instead of min-prio)
-	pq := prque.New()
-	pq.Push(startLoc, 0)
-	dists := make(map[location]float32)
+	pq := make(PriorityQueue, 0)
+	heap.Init(&pq)
+	heap.Push(&pq, &locationDist{startLoc, 0, -1})
+	dists := make(map[location]int)
 	dists[startLoc] = 0
 	paths := make(map[location][][]location, 0)
 	paths[startLoc] = [][]location{{startLoc}}
 
-	for !pq.Empty() {
+	for pq.Len() > 0 {
 		// Pop closest by location
-		tmpLoc, minDist := pq.Pop()
-		minLoc, ok := tmpLoc.(location)
+		tmp, ok := heap.Pop(&pq).(*locationDist)
+		minLoc, minDist := tmp.loc, tmp.dist
 		if !ok {
 			panic("ohno")
 		}
@@ -47,13 +76,13 @@ func solve(useRealInput bool) (int, int, error) {
 		for _, next := range nextLocations(maze, minLoc, minDist) {
 			previousDist, visited := dists[next.loc]
 			if !visited {
-				previousDist = -math.MaxFloat32
+				previousDist = math.MaxInt
 			}
 
-			if next.dist > previousDist {
+			if next.dist < previousDist {
 				// If we gotten there in less distance (inverted) then update it as the best
 				dists[next.loc] = next.dist
-				pq.Push(next.loc, next.dist)
+				heap.Push(&pq, next)
 
 				// replace all old paths since now we've gotten quicker
 				paths[next.loc] = extendPaths(paths, minLoc, next.loc)
@@ -65,10 +94,11 @@ func solve(useRealInput bool) (int, int, error) {
 	}
 
 	// Min distance is minimum distance of all directions how we could have ended at the end
-	minDist := float32(-math.MaxFloat32)
+	minDist := math.MaxInt
+	allDirs := util.ClockwiseDirections()
 	for _, dir := range allDirs {
 		dist := dists[location{*end, util.Direction(dir)}]
-		if dist > minDist {
+		if dist < minDist {
 			minDist = dist
 		}
 	}
@@ -86,7 +116,21 @@ func solve(useRealInput bool) (int, int, error) {
 		}
 	}
 
-	return -int(minDist), len(tiles), nil
+	// for y, row := range maze {
+	// 	for x, b := range row {
+	// 		_, visited := tiles[util.Vec{X: x, Y: y}]
+	// 		if visited {
+	// 			fmt.Print("O")
+	// 		} else if b {
+	// 			fmt.Print(".")
+	// 		} else {
+	// 			fmt.Print("#")
+	// 		}
+	// 	}
+	// 	fmt.Println()
+	// }
+
+	return minDist, len(tiles), nil
 }
 
 func get(maze [][]bool, p util.Vec) bool {
@@ -99,25 +143,26 @@ type location struct {
 }
 
 type locationDist struct {
-	loc  location
-	dist float32
+	loc   location
+	dist  int
+	index int
 }
 
-func nextLocations(maze [][]bool, minLoc location, minDist float32) []locationDist {
-	newLocations := make([]locationDist, 0)
+func nextLocations(maze [][]bool, minLoc location, minDist int) []*locationDist {
+	newLocations := make([]*locationDist, 0)
 
 	// Move a step if possible
 	nextPosition := minLoc.p.PlusDir(minLoc.dir)
 	nextLoc := location{nextPosition, minLoc.dir}
 	if get(maze, nextPosition) {
-		newDist := minDist - 1
-		newLocations = append(newLocations, locationDist{nextLoc, newDist})
+		newDist := minDist + 1
+		newLocations = append(newLocations, &locationDist{nextLoc, newDist, -1})
 	}
 
 	// Rotate clockwise or counter clockwise
 	newLocations = append(newLocations,
-		locationDist{location{minLoc.p, minLoc.dir.RotateClockwise()}, minDist - 1000},
-		locationDist{location{minLoc.p, minLoc.dir.RotateCounterClockwise()}, minDist - 1000},
+		&locationDist{location{minLoc.p, minLoc.dir.RotateClockwise()}, minDist + 1000, -1},
+		&locationDist{location{minLoc.p, minLoc.dir.RotateCounterClockwise()}, minDist + 1000, -1},
 	)
 	return newLocations
 }
