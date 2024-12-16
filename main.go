@@ -16,6 +16,7 @@ import (
 	"advent-of-code-2024/days/day13"
 	"advent-of-code-2024/days/day14"
 	"advent-of-code-2024/days/day15"
+	"advent-of-code-2024/days/day16"
 	"fmt"
 	"time"
 )
@@ -204,4 +205,16 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: After widening, sum of GPS: %d\n", sol)
+
+	fmt.Println("\n\nDay 16:")
+	sol, err = day16.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Min distance: %d\n", sol)
+	sol, err = day16.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Number of tiles covered by at least one path: %d\n", sol)
 }

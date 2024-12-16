@@ -97,6 +97,18 @@ func (dir Direction) PerpendicularDirections() [2]Direction {
 	panic("Invalid direction received")
 }
 
+func (dir Direction) RotateClockwise() Direction {
+	return Direction((dir + 1) % 4)
+}
+
+func (dir Direction) RotateCounterClockwise() Direction {
+	if dir == 0 {
+		return Direction(3)
+	} else {
+		return Direction(dir - 1)
+	}
+}
+
 // Update receiver by adding the corresponding DiagDirection vector
 func (v *Vec) MoveDir(d Direction) {
 	v.Add(d.ToVec())
