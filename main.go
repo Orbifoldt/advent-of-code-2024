@@ -17,6 +17,7 @@ import (
 	"advent-of-code-2024/days/day14"
 	"advent-of-code-2024/days/day15"
 	"advent-of-code-2024/days/day16"
+	"advent-of-code-2024/days/day18"
 	"fmt"
 	"time"
 )
@@ -217,4 +218,28 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of tiles covered by at least one path: %d\n", sol)
+
+	// fmt.Println("\n\nDay 17:")
+	// sol, err = day17.SolvePart1(true)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Printf("pt1: TODO: %d\n", sol)
+	// sol, err = day17.SolvePart2(true)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Printf("pt2: TODO: %d\n", sol)
+
+	fmt.Println("\n\nDay 18:")
+	sol, err = day18.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Min distance: %d\n", sol)
+	solStr, err := day18.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Coordinate of byte preventing exit: '%s'\n", solStr)
 }
