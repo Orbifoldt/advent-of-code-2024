@@ -16,8 +16,8 @@ import (
 	"advent-of-code-2024/days/day13"
 	"advent-of-code-2024/days/day14"
 	"advent-of-code-2024/days/day15"
-	"advent-of-code-2024/days/day16"
 	"advent-of-code-2024/days/day18"
+	"advent-of-code-2024/days/day23"
 	"fmt"
 	"time"
 )
@@ -207,17 +207,18 @@ func main() {
 	}
 	fmt.Printf("pt2: After widening, sum of GPS: %d\n", sol)
 
-	fmt.Println("\n\nDay 16:")
-	sol, err = day16.SolvePart1(true)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("pt1: Min distance: %d\n", sol)
-	sol, err = day16.SolvePart2(true)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("pt2: Number of tiles covered by at least one path: %d\n", sol)
+	// Disabled because slow:
+	// fmt.Println("\n\nDay 16:")
+	// sol, err = day16.SolvePart1(true)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Printf("pt1: Min distance: %d\n", sol)
+	// sol, err = day16.SolvePart2(true)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Printf("pt2: Number of tiles covered by at least one path: %d\n", sol)
 
 	// fmt.Println("\n\nDay 17:")
 	// sol, err = day17.SolvePart1(true)
@@ -242,4 +243,16 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Coordinate of byte preventing exit: '%s'\n", solStr)
+
+	fmt.Println("\n\nDay 23:")
+	sol, err = day23.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Number of K3 subgraphs containing vertex starting with t: %d\n", sol)
+	solStr, err = day23.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Largest complete subgraph consists of nodes: '%s'\n", solStr)
 }
