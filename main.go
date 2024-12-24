@@ -18,6 +18,7 @@ import (
 	"advent-of-code-2024/days/day15"
 	"advent-of-code-2024/days/day18"
 	"advent-of-code-2024/days/day23"
+	"advent-of-code-2024/days/day24"
 	"fmt"
 	"time"
 )
@@ -255,4 +256,16 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Largest complete subgraph consists of nodes: '%s'\n", solStr)
+
+	fmt.Println("\n\nDay 24:")
+	sol, err = day24.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Output of wires starting with z: %d\n", sol)
+	// sol, err = day24.SolvePart2(true)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	fmt.Println("pt2: solution was found visually/manually")
 }
