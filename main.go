@@ -19,6 +19,7 @@ import (
 	"advent-of-code-2024/days/day17"
 	"advent-of-code-2024/days/day18"
 	"advent-of-code-2024/days/day19"
+	"advent-of-code-2024/days/day20"
 	"advent-of-code-2024/days/day23"
 	"advent-of-code-2024/days/day24"
 	"advent-of-code-2024/days/day25"
@@ -261,6 +262,18 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt2: Number of ways all designs can be made: %d\n", sol)
+
+	fmt.Println("\n\nDay 20:")
+	sol, err = day20.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Total number of cheats saving 100 or more picoseconds: %d\n", sol)
+	sol, err = day20.SolvePart2(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: TODO: %d\n", sol)
 
 	fmt.Println("\n\nDay 23:")
 	sol, err = day23.SolvePart1(true)
