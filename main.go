@@ -19,6 +19,7 @@ import (
 	"advent-of-code-2024/days/day18"
 	"advent-of-code-2024/days/day23"
 	"advent-of-code-2024/days/day24"
+	"advent-of-code-2024/days/day25"
 	"fmt"
 	"time"
 )
@@ -263,9 +264,12 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt1: Output of wires starting with z: %d\n", sol)
-	// sol, err = day24.SolvePart2(true)
-	// if err != nil {
-	// 	panic(err)
-	// }
 	fmt.Println("pt2: solution was found visually/manually")
+
+	fmt.Println("\n\nDay 25:")
+	sol, err = day25.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Number of key and lock pairs that fit: %d\n", sol)
 }
