@@ -16,6 +16,7 @@ import (
 	"advent-of-code-2024/days/day13"
 	"advent-of-code-2024/days/day14"
 	"advent-of-code-2024/days/day15"
+	"advent-of-code-2024/days/day17"
 	"advent-of-code-2024/days/day18"
 	"advent-of-code-2024/days/day23"
 	"advent-of-code-2024/days/day24"
@@ -222,17 +223,19 @@ func main() {
 	// }
 	// fmt.Printf("pt2: Number of tiles covered by at least one path: %d\n", sol)
 
-	// fmt.Println("\n\nDay 17:")
-	// sol, err = day17.SolvePart1(true)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Printf("pt1: TODO: %d\n", sol)
-	// sol, err = day17.SolvePart2(true)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Printf("pt2: TODO: %d\n", sol)
+	fmt.Println("\n\nDay 17:")
+	solStr, err := day17.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: program output: %s\n", solStr)
+	start17_2 := time.Now()
+	sol64, err = day17.SolvePart2(true)
+	fmt.Printf("Took %s\n", time.Since(start17_2))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: value of A register to self-replicate the program: %d\n", sol64)
 
 	fmt.Println("\n\nDay 18:")
 	sol, err = day18.SolvePart1(true)
@@ -240,7 +243,7 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt1: Min distance: %d\n", sol)
-	solStr, err := day18.SolvePart2(true)
+	solStr, err = day18.SolvePart2(true)
 	if err != nil {
 		panic(err)
 	}

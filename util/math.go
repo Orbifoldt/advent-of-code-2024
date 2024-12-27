@@ -11,11 +11,11 @@ func Gcd(a, b int) int {
 	return a
 }
 
-func GcdRecursive(a, b int) int {  // Looks nicer imo, but Go doesn't do Tail-Call Optimization it seems
+func GcdRecursive(a, b int) int { // Looks nicer imo, but Go doesn't do Tail-Call Optimization it seems
 	if b == 0 {
 		return a
 	}
-	return GcdRecursive(b, a % b)
+	return GcdRecursive(b, a%b)
 }
 
 func Abs(a int) int {
@@ -34,3 +34,36 @@ func Mod(a int, n int) int {
 	return a
 }
 
+func Pow(base, exp int) int {
+	// Taken from https://stackoverflow.com/a/75657949
+	result := 1
+	for {
+		if exp&1 == 1 {
+			result *= base
+		}
+		exp >>= 1
+		if exp == 0 {
+			break
+		}
+		base *= base
+	}
+
+	return result
+}
+
+func Pow64(base, exp int64) int64 {
+	// Taken from https://stackoverflow.com/a/75657949
+	result := int64(1)
+	for {
+		if exp&1 == 1 {
+			result *= base
+		}
+		exp >>= 1
+		if exp == 0 {
+			break
+		}
+		base *= base
+	}
+
+	return result
+}

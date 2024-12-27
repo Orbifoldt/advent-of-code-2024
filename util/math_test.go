@@ -1,6 +1,5 @@
 package util
 
-
 import (
 	"testing"
 
@@ -29,4 +28,9 @@ func TestShouldReturnPositiveValueForNegativeInput(t *testing.T) {
 
 func TestShouldReturnInputValueForPositiveInput(t *testing.T) {
 	assert.Equal(t, 33, Abs(33))
+}
+
+func TestShouldReturnPowerOfInteger(t *testing.T) {
+	assert.Equal(t, 1024, Pow(2, 10))
+	assert.Equal(t, 16807, Pow(7, 5))
 }
