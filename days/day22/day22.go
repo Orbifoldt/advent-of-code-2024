@@ -14,7 +14,7 @@ func SolvePart1(useRealInput bool) (int64, error) {
 
 	sum := int64(0)
 	for _, secret := range secretVals {
-		x := evolve(secret, 2000)
+		x := evolve(secret, 2000, &[]int8{})
 		sum += x
 	}
 
@@ -28,45 +28,44 @@ func SolvePart2(useRealInput bool) (int64, error) {
 	}
 	N := 2000
 
-	allSecrets, allPrices := make([][]int64, len(secretVals)), make([][]int8, len(secretVals))
-
+	allPrices := make([][]int8, len(secretVals))
 	for i, secret := range secretVals {
-		s, p := make([]int64, 0, N+1), make([]int8, 0, N+1)
-		evolvePt2(secret, N, &s, &p)
-		allSecrets[i] = s
+		p := make([]int8, 0, N+1)
+		evolve(secret, N, &p)
 		allPrices[i] = p
 	}
 
-	allDivs := make([][]int8, len(secretVals))
+	// Calculate all divs
+	allDiffs := make([][]int8, len(secretVals))
 	for i, prices := range allPrices {
-		allDivs[i] = make([]int8, N) // N prices changes => N+1 prices => N divs
-		// secrets := allSecrets[i]
+		allDiffs[i] = make([]int8, N) // N prices changes => N+1 prices => N divs
 		prev := int8(-1)
 		for j, p := range prices {
 			if prev != int8(-1) {
 				div := p - prev
-				allDivs[i][j-1] = div
-				// fmt.Printf("%9d: %d (%3d)\n", secrets[j], p, div)
-			} else {
-				// fmt.Printf("%9d: %d\n", secrets[j], p)
-
+				allDiffs[i][j-1] = div
 			}
 			prev = p
 		}
 	}
 
-	// caches := make([]map[[4]int8]int, len(allPrices))
-	cache := make(map[[4]int8]int)
-	for i := range allDivs {
-		alreadyChecked := make(map[[4]int8]struct{})
+	// For each difference-sequence pattern, determine the total price
+	cache := make(map[int]int)
+	for i := range allDiffs {
+		// since a pattern can occur more than once, keep track of the ones we already checked
+		alreadyChecked := make(map[int]struct{})
 		for t := range N - 6 {
-			pattern := [4]int8{allDivs[i][t], allDivs[i][t+1], allDivs[i][t+2], allDivs[i][t+3]}
-			if _, checked := alreadyChecked[pattern]; !checked {
-				cache[pattern] += int(totalBananas(allPrices[i], allDivs[i], pattern))
-				alreadyChecked[pattern] = struct{}{}
+			// since the diffs are 4 int8's, we can make it a single int and use that as cache key
+			key := toInt(allDiffs[i][t : t+4])
+
+			if _, checked := alreadyChecked[key]; !checked {
+				pattern := [4]int8{allDiffs[i][t], allDiffs[i][t+1], allDiffs[i][t+2], allDiffs[i][t+3]}
+				cache[key] += int(totalBananas(allPrices[i], allDiffs[i], pattern))
+				alreadyChecked[key] = struct{}{}
 			}
 		}
 	}
+
 	maxTotal := 0
 	for _, totalBananas := range cache {
 		if totalBananas > maxTotal {
@@ -85,25 +84,12 @@ func prune(secret int64) int64 {
 	return secret % int64(16777216)
 }
 
-func evolve(secret int64, n int) int64 {
-	for range n {
-		secret = prune(mix(secret*64, secret))
-		secret = prune(mix(secret/32, secret))
-		secret = prune(mix(secret*2048, secret))
-	}
-	return secret
-}
-
-func evolvePt2(secret int64, n int, secrets *[]int64, prices *[]int8) int64 {
-	*secrets = append(*secrets, secret)
+func evolve(secret int64, n int, prices *[]int8) int64 {
 	*prices = append(*prices, int8(secret%10))
-
 	for range n {
 		secret = prune(mix(secret*64, secret))
 		secret = prune(mix(secret/32, secret))
 		secret = prune(mix(secret*2048, secret))
-
-		*secrets = append(*secrets, secret)
 		*prices = append(*prices, int8(secret%10))
 	}
 	return secret
@@ -117,6 +103,14 @@ func totalBananas(prices, divs []int8, pattern [4]int8) int8 {
 		}
 	}
 	return 0
+}
+
+func toInt(pattern []int8) int {
+	key := 0
+	for _, p := range pattern {
+		key = (key << 8) + int(p)
+	}
+	return key
 }
 
 func parseInput(useRealInput bool) ([]int64, error) {
