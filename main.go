@@ -21,6 +21,7 @@ import (
 	"advent-of-code-2024/days/day19"
 	"advent-of-code-2024/days/day20"
 	"advent-of-code-2024/days/day21"
+	"advent-of-code-2024/days/day22"
 	"advent-of-code-2024/days/day23"
 	"advent-of-code-2024/days/day24"
 	"advent-of-code-2024/days/day25"
@@ -286,7 +287,21 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("pt2: TODO: %d\n", sol)
+	fmt.Printf("pt2: Total score with 26 robots: %d\n", sol)
+
+	fmt.Println("\n\nDay 22:")
+	sol64, err = day22.SolvePart1(true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Sum 2000th secret numbers: %d\n", sol64)
+	start22_2 := time.Now()
+	sol64, err = day22.SolvePart2(true)
+	fmt.Printf("Took %s\n", time.Since(start22_2))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Total bananas at optimal price: %d\n", sol64)
 
 	fmt.Println("\n\nDay 23:")
 	sol, err = day23.SolvePart1(true)
