@@ -16,6 +16,7 @@ import (
 	"advent-of-code-2024/days/day13"
 	"advent-of-code-2024/days/day14"
 	"advent-of-code-2024/days/day15"
+	"advent-of-code-2024/days/day16"
 	"advent-of-code-2024/days/day17"
 	"advent-of-code-2024/days/day18"
 	"advent-of-code-2024/days/day19"
@@ -30,6 +31,8 @@ import (
 )
 
 func main() {
+	start := time.Now()
+
 	fmt.Println("Day 01:")
 	sol, err := day01.SolvePart1(true)
 	if err != nil {
@@ -110,9 +113,9 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt1: Sum of valid test values: %d\n", sol64)
-	start := time.Now()
+	start7_2 := time.Now()
 	sol64, err = day07.SolvePart2(true)
-	fmt.Printf("Took %s\n", time.Since(start))
+	fmt.Printf("Took %s\n", time.Since(start7_2))
 	if err != nil {
 		panic(err)
 	}
@@ -214,18 +217,17 @@ func main() {
 	}
 	fmt.Printf("pt2: After widening, sum of GPS: %d\n", sol)
 
-	// Disabled because slow:
-	// fmt.Println("\n\nDay 16:")
-	// sol, err = day16.SolvePart1(true)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Printf("pt1: Min distance: %d\n", sol)
-	// sol, err = day16.SolvePart2(true)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Printf("pt2: Number of tiles covered by at least one path: %d\n", sol)
+	fmt.Println("\n\nDay 16:")
+	sol, err = day16.SolvePart1(true)  // optimize
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt1: Min distance: %d\n", sol)
+	sol, err = day16.SolvePart2(true)  // optimize
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("pt2: Number of tiles covered by at least one path: %d\n", sol)
 
 	fmt.Println("\n\nDay 17:")
 	solStr, err := day17.SolvePart1(true)
@@ -275,7 +277,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("pt2: TODO: %d\n", sol)
+	fmt.Printf("pt2: Total number of cheats of up to 20 ps that save >=100ps: %d\n", sol)
 
 	fmt.Println("\n\nDay 21:")
 	sol, err = day21.SolvePart1(true)
@@ -329,4 +331,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("pt1: Number of key and lock pairs that fit: %d\n", sol)
+
+	fmt.Printf("\n\nIn total all took %s\n", time.Since(start))
 }
